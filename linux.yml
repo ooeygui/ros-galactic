@@ -1,0 +1,68 @@
+pool:
+  vmImage: ubuntu-latest
+trigger:
+- buildbranch_linux
+pr: none
+stages:
+- stage: stage_0
+  jobs:
+  - job: stage_0_job_0
+    steps:
+    - script: |-
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/run_docker_build.sh
+      env:
+        ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN)
+        CURRENT_RECIPES: ros-galactic-nav2-costmap-2d ros-galactic-nav2-rviz-plugins
+          ros-galactic-nav2-core ros-galactic-costmap-queue
+        DOCKER_IMAGE: condaforge/linux-anvil-comp7
+      displayName: Build ros-galactic-nav2-costmap-2d ros-galactic-nav2-rviz-plugins
+        ros-galactic-nav2-core ros-galactic-costmap-queue
+- stage: stage_1
+  jobs:
+  - job: stage_1_job_0
+    steps:
+    - script: |-
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/run_docker_build.sh
+      env:
+        ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN)
+        CURRENT_RECIPES: ros-galactic-nav2-bt-navigator ros-galactic-nav2-controller
+          ros-galactic-dwb-core ros-galactic-nav2-navfn-planner ros-galactic-nav2-planner
+        DOCKER_IMAGE: condaforge/linux-anvil-comp7
+      displayName: Build ros-galactic-nav2-bt-navigator ros-galactic-nav2-controller
+        ros-galactic-dwb-core ros-galactic-nav2-navfn-planner ros-galactic-nav2-planner
+  - job: stage_1_job_1
+    steps:
+    - script: |-
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/run_docker_build.sh
+      env:
+        ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN)
+        CURRENT_RECIPES: ros-galactic-nav2-recoveries ros-galactic-nav2-regulated-pure-pursuit-controller
+          ros-galactic-nav2-smac-planner ros-galactic-nav2-waypoint-follower
+        DOCKER_IMAGE: condaforge/linux-anvil-comp7
+      displayName: Build ros-galactic-nav2-recoveries ros-galactic-nav2-regulated-pure-pursuit-controller
+        ros-galactic-nav2-smac-planner ros-galactic-nav2-waypoint-follower
+- stage: stage_2
+  jobs:
+  - job: stage_2_job_0
+    steps:
+    - script: |-
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/run_docker_build.sh
+      env:
+        ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN)
+        CURRENT_RECIPES: ros-galactic-dwb-critics ros-galactic-dwb-plugins ros-galactic-nav2-dwb-controller
+          ros-galactic-navigation2
+        DOCKER_IMAGE: condaforge/linux-anvil-comp7
+      displayName: Build ros-galactic-dwb-critics ros-galactic-dwb-plugins ros-galactic-nav2-dwb-controller
+        ros-galactic-navigation2
